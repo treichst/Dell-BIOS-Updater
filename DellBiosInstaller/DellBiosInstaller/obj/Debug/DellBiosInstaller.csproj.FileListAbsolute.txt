@@ -1,0 +1,10 @@
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\bin\Debug\DellBiosInstaller.exe.config
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\bin\Debug\DellBiosInstaller.exe
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\bin\Debug\DellBiosInstaller.pdb
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\bin\Debug\WebDriver.dll
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\bin\Debug\WebDriver.xml
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\obj\Debug\DellBiosInstaller.csprojAssemblyReference.cache
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\obj\Debug\DellBiosInstaller.csproj.CoreCompileInputs.cache
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\obj\Debug\DellBiosInstaller.csproj.CopyComplete
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\obj\Debug\DellBiosInstaller.exe
+C:\Users\treichst\source\repos\DellBiosInstaller\DellBiosInstaller\obj\Debug\DellBiosInstaller.pdb
