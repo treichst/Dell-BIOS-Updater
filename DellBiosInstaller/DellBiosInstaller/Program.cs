@@ -37,7 +37,7 @@ namespace BiosDownloader
             {
                 DownloadFile(biosDownloadLink, fileName); //Download the file and name it accordingly
                 StartUpgrade(); //Start process executable
-            }         
+            }
         }
 
         public static bool CheckForInternetConnection()
@@ -47,14 +47,16 @@ namespace BiosDownloader
             byte[] buffer = new byte[32];
             int timeout = 1000;
             PingOptions pingOptions = new PingOptions();
-            PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
-
-            if (reply.Status == IPStatus.Success)
+            try
             {
-                LogActionToFile("Internet Check passed");
-                return true;
+                PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
+                if (reply.Status == IPStatus.Success)
+                {
+                    LogActionToFile("Internet Check passed");
+                    return true;
+                }
             }
-            else
+            catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 LogActionToFile("Internet Connection check failed");
@@ -62,9 +64,9 @@ namespace BiosDownloader
                 Console.WriteLine();
                 Console.WriteLine("Press any key to close the program");
                 Console.ReadKey();
-                Environment.Exit(0);
-                return false;
+                Environment.Exit(0);               
             }
+            return false;
         }
         public static string GetServiceTag()
         {
@@ -82,7 +84,6 @@ namespace BiosDownloader
 
             catch (ManagementException e)
             {
-
                 Console.WriteLine($"Error: {e.Message}. Press any key to close the program");
                 Console.ReadKey();
                 Environment.Exit(0);
@@ -138,7 +139,7 @@ namespace BiosDownloader
                     Console.WriteLine();
 
                     if (driver.FindElement(By.CssSelector(".alert.alert-warning.alert-dismissable.ng-scope")).Displayed)
-                        //Dell's page for missing Service Tags
+                    //Dell's page for missing Service Tags
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         LogActionToFile($"Service Tag {GetServiceTag()} does not exist on Dell's page");
@@ -173,8 +174,8 @@ namespace BiosDownloader
 
                 Console.WriteLine("Loading Drivers Tab");
                 try //Click on driver's tab
-                {                 
-                    driver.FindElement(By.Id("tab-drivers")).Click(); 
+                {
+                    driver.FindElement(By.Id("tab-drivers")).Click();
                 }
                 catch (Exception e)
                 {
@@ -240,7 +241,7 @@ namespace BiosDownloader
                 Console.WriteLine("Downloading BIOS...");
                 client.DownloadFile(link, downloadDir + name); //Download latest version
                 LogActionToFile("Successfully downloaded BIOS update");
-                Console.WriteLine("File Downloaded");              
+                Console.WriteLine("File Downloaded");
             }
         }
         public static void StartUpgrade()
