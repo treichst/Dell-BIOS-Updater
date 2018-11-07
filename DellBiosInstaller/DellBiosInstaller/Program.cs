@@ -83,7 +83,7 @@ namespace BiosDownloader
             catch (ManagementException e)
             {
 
-                Console.WriteLine($" Error: {e.Message}. Press any key to close the program");
+                Console.WriteLine($"Error: {e.Message}. Press any key to close the program");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
