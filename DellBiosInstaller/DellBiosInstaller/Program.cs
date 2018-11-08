@@ -14,7 +14,7 @@ namespace BiosDownloader
     {
         static void Main(string[] args)
         {
-            string biosDownloadLink = GetDownloadLink(); //Get BIOS download link for current machine 
+            string biosDownloadLink = GetDownloadLink(); //Get BIOS download link for current machine            
             string fileName = biosDownloadLink.Split('/').Last(); //Get filename of BIOS to name downloaded file
             string theLatestBios = fileName.Split('_').Last().Substring(0, fileName.Split('_').Last().Length - 4); //Get the BIOS verion number from Dell's website
             string currentBIOS = GetCurrentBIOS(); //Get current machine's BIOS version
@@ -35,7 +35,7 @@ namespace BiosDownloader
             else //Current version is not latest version, update needed
             {
                 DownloadFile(biosDownloadLink, fileName); //Download the file and name it accordingly
-                StartUpgrade(); //Start process executable
+                StartUpgrade(fileName); //Start process executable
             }
         }
 
@@ -288,7 +288,7 @@ namespace BiosDownloader
                 Console.WriteLine("File Downloaded");
             }
         }
-        public static void StartUpgrade()
+        public static void StartUpgrade(string upgrade)
         {
             Console.WriteLine("Starting BIOS Upgrade...");
             try
@@ -297,7 +297,7 @@ namespace BiosDownloader
                 ProcessStartInfo pi = new ProcessStartInfo
                 {
                     Verb = "runas",
-                    FileName = (Directory.GetFiles(downloadDir, "*.exe")[0])
+                    FileName = downloadDir + upgrade
                 };
                 Process.Start(pi); //Start BIOS upgrade prompting for user to run as
                 LogActionToFile("Correctly opened BIOS upgrade executable");
@@ -314,8 +314,8 @@ namespace BiosDownloader
         }
         public static void LogActionToFile(string msg)
         {
-            System.IO.Directory.CreateDirectory(Path.GetTempPath() + "BIOS\\");
-            StreamWriter streamWriter = System.IO.File.AppendText(Path.Combine(Path.GetTempPath() + "BIOS\\") + "log.txt");
+            Directory.CreateDirectory(Path.GetTempPath() + "BIOS\\");
+            StreamWriter streamWriter = File.AppendText(Path.Combine(Path.GetTempPath() + "BIOS\\") + "log.txt");
             try //Format text entered to prepend date and time
             {
                 string message = string.Format("{0:G}: {1}.", DateTime.Now, msg);
