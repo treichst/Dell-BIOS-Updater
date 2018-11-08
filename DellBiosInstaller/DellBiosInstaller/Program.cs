@@ -14,7 +14,6 @@ namespace BiosDownloader
     {
         static void Main(string[] args)
         {
-            CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
             string biosDownloadLink = GetDownloadLink(); //Get BIOS download link for current machine 
             string fileName = biosDownloadLink.Split('/').Last(); //Get filename of BIOS to name downloaded file
             string theLatestBios = fileName.Split('_').Last().Substring(0, fileName.Split('_').Last().Length - 4); //Get the BIOS verion number from Dell's website
@@ -130,21 +129,14 @@ namespace BiosDownloader
             {
                 int retryAttempts = 0;
                 reload: //Goto location if Dell's page loads incorrectly to try again
+                CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Loading Support Page. This will take a few moments.");
                     //Load machine specific download page
-                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());
-                    if (driver.PageSource == "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head></head><body></body></html>")
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Page loaded incorrectly. Did you lose network connectivity?");
-                        Console.WriteLine("Please reopen program after verifying connectivity.");
-                        Thread.Sleep(1000);
-                        Environment.Exit(0);
-                    }                 
+                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());                  
                     Console.WriteLine();
 
                     if (driver.FindElement(By.CssSelector(".alert.alert-warning.alert-dismissable.ng-scope")).Displayed)
