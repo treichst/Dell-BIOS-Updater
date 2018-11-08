@@ -28,3 +28,13 @@ C:\Users\treichst\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInsta
 C:\Users\treichst\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.csproj.CopyComplete
 C:\Users\treichst\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.exe
 C:\Users\treichst\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.pdb
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Debug\DellBiosInstaller.exe.config
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Debug\DellBiosInstaller.exe
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Debug\DellBiosInstaller.pdb
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Debug\WebDriver.dll
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Debug\WebDriver.xml
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.csprojAssemblyReference.cache
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.csproj.CoreCompileInputs.cache
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.csproj.CopyComplete
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.exe
+C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Debug\DellBiosInstaller.pdb

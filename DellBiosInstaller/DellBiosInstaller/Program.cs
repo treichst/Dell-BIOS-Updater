@@ -150,6 +150,7 @@ namespace BiosDownloader
                         Console.WriteLine("Press any key to close");
                         Console.ReadKey();
                         Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
                         Console.WriteLine("Exiting program....");
                         Thread.Sleep(1000);
                         driver.Dispose();
