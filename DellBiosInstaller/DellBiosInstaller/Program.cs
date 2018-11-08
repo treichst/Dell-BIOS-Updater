@@ -270,6 +270,7 @@ namespace BiosDownloader
         }
         public static void LogActionToFile(string msg)
         {
+            System.IO.Directory.CreateDirectory(Path.GetTempPath() + "BIOS\\");
             StreamWriter streamWriter = System.IO.File.AppendText(Path.Combine(Path.GetTempPath() + "BIOS\\") + "log.txt");
             try //Format text entered to prepend date and time
             {
