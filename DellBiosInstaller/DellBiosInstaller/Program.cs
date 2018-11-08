@@ -128,14 +128,23 @@ namespace BiosDownloader
             options.AddArgument("--silent");
             using (ChromeDriver driver = new ChromeDriver(options))
             {
+                int retryAttempts = 0;
                 reload: //Goto location if Dell's page loads incorrectly to try again
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Loading Support Page. This will take a few moments.");
-                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());
                     //Load machine specific download page
+                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());
+                    if (driver.PageSource == "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head></head><body></body></html>")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Page loaded incorrectly. Did you lose network connectivity?");
+                        Console.WriteLine("Please reopen program after verifying connectivity.");
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                    }                 
                     Console.WriteLine();
 
                     if (driver.FindElement(By.CssSelector(".alert.alert-warning.alert-dismissable.ng-scope")).Displayed)
@@ -160,16 +169,25 @@ namespace BiosDownloader
 
                 catch (Exception e)
                 {
-                    if (e.Message.Contains(".alert.alert-warning.alert-dismissable.ng-scope"))
-                    {/* Error is already caught*/}
-                    else
+                    if (!e.Message.Contains(".alert.alert-warning.alert-dismissable.ng-scope"))//Error is already caught
                     {
                         //the error is not expected, print error message
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Error: {e.Message}");
                         LogActionToFile($"Error: {e.Message}");
                         Console.WriteLine("Reloading");
-                        goto reload;
+                        retryAttempts++;
+                        if (retryAttempts <= 3)
+                        {
+                            goto reload;
+                        }
+                        else
+                        {
+                            LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                            Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                            Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
                     }
                 }
 
@@ -184,7 +202,18 @@ namespace BiosDownloader
                     Console.WriteLine("Error: Failed to open Drivers tab");
                     LogActionToFile($"Error: {e.Message}");
                     Console.WriteLine("Reloading");
-                    goto reload;
+                    retryAttempts++;
+                    if (retryAttempts <= 3)
+                    {
+                        goto reload;
+                    }
+                    else
+                    {
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                    }
                 }
 
                 LogActionToFile("Successfully loaded Drivers tab");
@@ -201,7 +230,18 @@ namespace BiosDownloader
                     Console.WriteLine("Error: Failed to filter to BIOS");
                     LogActionToFile($"Error: {e.Message}");
                     Console.WriteLine("Reloading");
-                    goto reload;
+                    retryAttempts++;
+                    if (retryAttempts <= 3)
+                    {
+                        goto reload;
+                    }
+                    else
+                    {
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                    }
                 }
                 LogActionToFile("Successfully loaded BIOS section");
                 Console.WriteLine("Retrieving BIOS download link");
@@ -217,7 +257,18 @@ namespace BiosDownloader
                     Console.WriteLine($"Error: {e.Message}");
                     LogActionToFile($"Error: {e.Message}");
                     Console.WriteLine("Reloading");
-                    goto reload;
+                    retryAttempts++;
+                    if (retryAttempts <= 3)
+                    {
+                        goto reload;
+                    }
+                    else
+                    {
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        Thread.Sleep(1000);
+                        Environment.Exit(0);
+                    }
                 }
                 driver.Dispose(); //Dispose of webdriver as BIOS download link has been retrieved
                 return biosDownloadLink;
