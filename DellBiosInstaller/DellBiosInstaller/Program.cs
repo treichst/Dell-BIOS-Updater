@@ -117,7 +117,7 @@ namespace BiosDownloader
         }
         public static string GetDownloadLink()
         {
-            int retryAttempts = 0;
+            int retryAttempts = 1;
             CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
             //string testSerialNumber = "4CHV0Q2";
             //string brandonSerialNumber = "7GH1MR2";
