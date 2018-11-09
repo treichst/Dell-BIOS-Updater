@@ -84,7 +84,7 @@ namespace BiosDownloader
             catch (ManagementException e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                LogActionToFile($"An error occurred while querying for WMI data: { e.Message}");         
+                LogActionToFile($"An error occurred while querying for WMI data: {e.Message}");         
                 Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
                 Console.ReadKey();
                 Environment.Exit(0);
@@ -168,14 +168,14 @@ namespace BiosDownloader
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"Error: {e.Message}");
                             LogActionToFile($"Error: {e.Message}");
-                            Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                            Console.WriteLine($"Attempting to reload support page. Attempts: {retryAttempts}.");
                             retryAttempts++;
                             GetDownloadLink();
                         }
                         else
                         {
-                            LogActionToFile($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
-                            Console.WriteLine($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
+                            LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
+                            Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
@@ -194,15 +194,15 @@ namespace BiosDownloader
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Error: Failed to open Drivers tab");
                         LogActionToFile($"Error: {e.Message}");
-                        Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                        Console.WriteLine($"Attempting to reload support page. Attempts: {retryAttempts}.");
                         retryAttempts++;
                         GetDownloadLink();
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
-                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
                         Thread.Sleep(1000);
                         Environment.Exit(0);
                     }
@@ -223,7 +223,7 @@ namespace BiosDownloader
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Error: Failed to filter to BIOS");
                         LogActionToFile($"Error: {e.Message}");
-                        Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                        Console.WriteLine($"Attempting to reload support page. Attempts: {retryAttempts}.");
                         retryAttempts++;
                         GetDownloadLink();
                     }
@@ -258,8 +258,8 @@ namespace BiosDownloader
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
-                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}.");
                         Thread.Sleep(1000);
                         Environment.Exit(0);
                     }
