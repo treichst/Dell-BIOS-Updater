@@ -16,6 +16,7 @@ namespace BiosDownloader
         {
             string biosDownloadLink = GetDownloadLink(); //Get BIOS download link for current machine            
             string fileName = biosDownloadLink.Split('/').Last(); //Get filename of BIOS to name downloaded file
+            string downloadDir = Path.Combine(Path.GetTempPath() + @"BIOS\");
             string theLatestBios = fileName.Split('_').Last().Substring(0, fileName.Split('_').Last().Length - 4); //Get the BIOS verion number from Dell's website
             string currentBIOS = GetCurrentBIOS(); //Get current machine's BIOS version
             LogActionToFile("Retrieved machine specific BIOS link");
@@ -35,7 +36,7 @@ namespace BiosDownloader
             else //Current version is not latest version, update needed
             {
                 DownloadFile(biosDownloadLink, fileName); //Download the file and name it accordingly
-                StartUpgrade(fileName); //Start process executable
+                StartUpgrade(downloadDir, fileName); //Start process executable
             }
         }
 
@@ -63,7 +64,7 @@ namespace BiosDownloader
                 Console.WriteLine();
                 Console.WriteLine("Press any key to close the program");
                 Console.ReadKey();
-                Environment.Exit(0);               
+                Environment.Exit(0);
             }
             return false;
         }
@@ -80,10 +81,10 @@ namespace BiosDownloader
                     serviceTag = queryObj["SerialNumber"].ToString();
                 }
             }
-
             catch (ManagementException e)
             {
-                Console.WriteLine($"Error: {e.Message}. Press any key to close the program");
+                LogActionToFile($"An error occurred while querying for WMI data: { e.Message}");         
+                Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
@@ -102,9 +103,9 @@ namespace BiosDownloader
                     currentBIOSVersion = queryObj["SMBIOSBIOSVersion"].ToString();
                 }
             }
-
             catch (ManagementException e)
             {
+                LogActionToFile($"An error occurred while querying for WMI data: { e.Message}");
                 Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
                 Console.WriteLine("Press any key to close the program");
                 Console.ReadKey();
@@ -114,6 +115,8 @@ namespace BiosDownloader
         }
         public static string GetDownloadLink()
         {
+            int retryAttempts = 0;
+            CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
             //string testSerialNumber = "4CHV0Q2";
             //string brandonSerialNumber = "7GH1MR2";
             //string e5550SerialNumber = "7RVSVL1";
@@ -127,18 +130,13 @@ namespace BiosDownloader
             options.AddArgument("--silent");
             using (ChromeDriver driver = new ChromeDriver(options))
             {
-                int retryAttempts = 0;
-                reload: //Goto location if Dell's page loads incorrectly to try again
-                CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Loading Support Page. This will take a few moments.");
-                    //Load machine specific download page
-                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());                  
+                    Console.WriteLine("Loading Support Page. This will take a few moments."); //Load machine specific download page
+                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + GetServiceTag());
                     Console.WriteLine();
-
                     if (driver.FindElement(By.CssSelector(".alert.alert-warning.alert-dismissable.ng-scope")).Displayed)
                     //Dell's page for missing Service Tags
                     {
@@ -158,25 +156,24 @@ namespace BiosDownloader
                         Environment.Exit(0);
                     }
                 }
-
                 catch (Exception e)
                 {
                     if (!e.Message.Contains(".alert.alert-warning.alert-dismissable.ng-scope"))//Error is already caught
                     {
                         //the error is not expected, print error message
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Error: {e.Message}");
-                        LogActionToFile($"Error: {e.Message}");
-                        Console.WriteLine("Reloading");
-                        retryAttempts++;
                         if (retryAttempts <= 3)
                         {
-                            goto reload;
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Error: {e.Message}");
+                            LogActionToFile($"Error: {e.Message}");
+                            Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                            retryAttempts++;
+                            GetDownloadLink();
                         }
                         else
                         {
-                            LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
-                            Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                            LogActionToFile($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
+                            Console.WriteLine($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
@@ -189,20 +186,20 @@ namespace BiosDownloader
                     driver.FindElement(By.Id("tab-drivers")).Click();
                 }
                 catch (Exception e)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Error: Failed to open Drivers tab");
-                    LogActionToFile($"Error: {e.Message}");
-                    Console.WriteLine("Reloading");
-                    retryAttempts++;
+                {                   
                     if (retryAttempts <= 3)
                     {
-                        goto reload;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: Failed to open Drivers tab");
+                        LogActionToFile($"Error: {e.Message}");
+                        Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                        retryAttempts++;
+                        GetDownloadLink();
                     }
                     else
                     {
-                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
-                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
                         Thread.Sleep(1000);
                         Environment.Exit(0);
                     }
@@ -218,14 +215,14 @@ namespace BiosDownloader
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Error: Failed to filter to BIOS");
-                    LogActionToFile($"Error: {e.Message}");
-                    Console.WriteLine("Reloading");
-                    retryAttempts++;
                     if (retryAttempts <= 3)
                     {
-                        goto reload;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: Failed to filter to BIOS");
+                        LogActionToFile($"Error: {e.Message}");
+                        Console.WriteLine($"Attempting to reload support page. Attempt #{retryAttempts}.");
+                        retryAttempts++;
+                        GetDownloadLink();
                     }
                     else
                     {
@@ -245,19 +242,19 @@ namespace BiosDownloader
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Error: {e.Message}");
-                    LogActionToFile($"Error: {e.Message}");
-                    Console.WriteLine("Reloading");
-                    retryAttempts++;
                     if (retryAttempts <= 3)
                     {
-                        goto reload;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Error: {e.Message}");
+                        LogActionToFile($"Error: {e.Message}");
+                        Console.WriteLine("Reloading");
+                        retryAttempts++;
+                        GetDownloadLink();
                     }
                     else
                     {
-                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
-                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
+                        LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
+                        Console.WriteLine($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
                         Thread.Sleep(1000);
                         Environment.Exit(0);
                     }
@@ -288,21 +285,19 @@ namespace BiosDownloader
                 Console.WriteLine("File Downloaded");
             }
         }
-        public static void StartUpgrade(string upgrade)
+        public static void StartUpgrade(string path, string name)
         {
             Console.WriteLine("Starting BIOS Upgrade...");
             try
-            {
-                string downloadDir = Path.Combine(Path.GetTempPath() + @"BIOS\");
+            {                
                 ProcessStartInfo pi = new ProcessStartInfo
                 {
                     Verb = "runas",
-                    FileName = downloadDir + upgrade
+                    FileName = path + name
                 };
                 Process.Start(pi); //Start BIOS upgrade prompting for user to run as
                 LogActionToFile("Correctly opened BIOS upgrade executable");
             }
-
             catch (Exception e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -320,6 +315,10 @@ namespace BiosDownloader
             {
                 string message = string.Format("{0:G}: {1}.", DateTime.Now, msg);
                 streamWriter.WriteLine(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error writing log to file. Error code: {e.Message}");
             }
             finally
             {
