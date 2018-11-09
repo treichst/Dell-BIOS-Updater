@@ -83,6 +83,7 @@ namespace BiosDownloader
             }
             catch (ManagementException e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 LogActionToFile($"An error occurred while querying for WMI data: { e.Message}");         
                 Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
                 Console.ReadKey();
@@ -105,6 +106,7 @@ namespace BiosDownloader
             }
             catch (ManagementException e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 LogActionToFile($"An error occurred while querying for WMI data: { e.Message}");
                 Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
                 Console.WriteLine("Press any key to close the program");
@@ -198,6 +200,7 @@ namespace BiosDownloader
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
                         Console.WriteLine($"Repeated issues loading page elements, closing. Attempt #{retryAttempts}.");
                         Thread.Sleep(1000);
@@ -226,6 +229,7 @@ namespace BiosDownloader
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         LogActionToFile($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
                         Console.WriteLine($"Repeated issues loading page elements, closing. Attempts: {retryAttempts}");
                         Thread.Sleep(1000);
@@ -253,6 +257,7 @@ namespace BiosDownloader
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         LogActionToFile($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
                         Console.WriteLine($"Repeated issues loading page elements, closing. Attempts #{retryAttempts}.");
                         Thread.Sleep(1000);
@@ -274,7 +279,7 @@ namespace BiosDownloader
                 {
                     if (file.Extension == ".exe")
                     {
-                        LogActionToFile("Potentially outdated file exists in BIOS directory, deleting the file");
+                        LogActionToFile("Potentially outdated file exists in BIOS directory, deleting.");
                         file.Delete();
                     }
                 }
@@ -318,6 +323,7 @@ namespace BiosDownloader
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error writing log to file. Error code: {e.Message}");
             }
             finally
