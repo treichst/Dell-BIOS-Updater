@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BiosDownloader
 {
-    class Methods
+    class Utils
     {
         public static bool CheckForInternetConnection()
         {
