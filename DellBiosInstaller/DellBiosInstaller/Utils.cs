@@ -112,7 +112,7 @@ namespace BiosDownloader
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Loading Support Page. This will take a few moments."); //Load machine specific download page
-                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + Methods.GetServiceTag());
+                    driver.Navigate().GoToUrl("https://www.dell.com/support/home/us/en/04/product-support/servicetag/" + Utils.GetServiceTag());
                     Console.WriteLine();
                     if (driver.FindElement(By.CssSelector(".alert.alert-warning.alert-dismissable.ng-scope")).Displayed)
                     //Dell's page for missing Service Tags
