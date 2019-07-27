@@ -48,3 +48,13 @@ C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBio
 C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\WebDriver.dll
 C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\WebDriver.xml
 C:\Users\Shawn\Source\Repos\treichst\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.csproj.CopyComplete
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\DellBiosInstaller.exe.config
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\DellBiosInstaller.exe
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\DellBiosInstaller.pdb
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\WebDriver.dll
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\bin\x64\Release\WebDriver.xml
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.csprojAssemblyReference.cache
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.csproj.CoreCompileInputs.cache
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.csproj.CopyComplete
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.exe
+C:\Users\slitwiller\Source\Repos\Dell-BIOS-Updater\DellBiosInstaller\DellBiosInstaller\obj\x64\Release\DellBiosInstaller.pdb
