@@ -95,7 +95,7 @@ namespace BiosDownloader
             int retryAttempts = 1;
             CheckForInternetConnection(); //Try to ping download.dell.com. If it does not reply, close program
             //string testSerialNumber = "4CHV0Q2";
-            //string brandonSerialNumber = "7GH1MR2";
+            //string testSerialNumber2 = "7GH1MR2";
             //string e5550SerialNumber = "7RVSVL1";
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("--window-size=1280,720");
